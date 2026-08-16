@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+
+{% block title %}MarketMate - Log In or Register{% endblock %}
+
+{% block public_content %}
+<div class="auth-page">
+    <div class="auth-card">
+        <div class="text-center mb-4">
+            <h3 class="fw-bold text-primary"><i class="fa-solid fa-chart-line me-2"></i>MarketMate</h3>
+            <p class="text-muted small">Manage your digital marketing campaign metrics</p>
+        </div>
+
+        <!-- Navigation Tabs -->
+        <ul class="nav nav-pills nav-fill mb-4 bg-light p-1 rounded-3" id="authTabs" role="tablist">
+            <li class="nav-item" role="presentation">
+                <button class="nav-link active rounded-3 py-2 fw-semibold" id="login-tab" data-bs-toggle="tab" data-bs-target="#login" type="button" role="tab" aria-controls="login" aria-selected="true">Login</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link rounded-3 py-2 fw-semibold" id="register-tab" data-bs-toggle="tab" data-bs-target="#register" type="button" role="tab" aria-controls="register" aria-selected="false">Register</button>
+            </li>
+        </ul>
+
+        <!-- Tab Content -->
+        <div class="tab-content" id="authTabsContent">
+            <!-- Login Panel -->
+            <div class="tab-pane fade show active" id="login" role="tabpanel" aria-labelledby="login-tab">
+                <form action="{{ url_for('login') }}" method="POST">
+                    <div class="mb-3">
+                        <label for="loginEmail" class="form-label">Email Address</label>
+                        <input type="email" class="form-control" id="loginEmail" name="email" placeholder="admin@marketmate.com" required>
+                    </div>
+                    <div class="mb-4">
+                        <label for="loginPassword" class="form-label">Password</label>
+                        <input type="password" class="form-control" id="loginPassword" name="password" placeholder="admin123" required>
+                    </div>
+                    <button type="submit" class="btn btn-gradient w-100 py-2.5">Login</button>
+                </form>
+                <div class="mt-4 p-3 bg-light rounded-3 text-center border">
+                    <small class="text-muted d-block fw-semibold mb-1">💡 Demo Admin Account</small>
+                    <small class="text-muted d-block">Username: <code>admin@marketmate.com</code></small>
+                    <small class="text-muted d-block">Password: <code>admin123</code></small>
+                </div>
+            </div>
+
+            <!-- Register Panel -->
+            <div class="tab-pane fade" id="register" role="tabpanel" aria-labelledby="register-tab">
+                <form action="{{ url_for('register') }}" method="POST">
+                    <div class="mb-3">
+                        <label for="regName" class="form-label">Full Name</label>
+                        <input type="text" class="form-control" id="regName" name="name" placeholder="John Doe" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="regEmail" class="form-label">Email Address</label>
+                        <input type="email" class="form-control" id="regEmail" name="email" placeholder="john@example.com" required>
+                    </div>
+                    <div class="mb-4">
+                        <label for="regPassword" class="form-label">Create Password</label>
+                        <input type="password" class="form-control" id="regPassword" name="password" placeholder="Min. 6 characters" required>
+                    </div>
+                    <button type="submit" class="btn btn-gradient w-100 py-2.5">Create Account</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

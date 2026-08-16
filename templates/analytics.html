@@ -1,0 +1,220 @@
+{% extends 'base.html' %}
+
+{% block title %}Marketing Analytics - MarketMate{% endblock %}
+{% block page_header %}Analytics & Insights{% endblock %}
+
+{% block content %}
+<!-- Analytics Summary Cards -->
+<div class="row g-4 mb-4">
+    <!-- Card 1: Avg CTR -->
+    <div class="col-6 col-md-4 col-lg-3">
+        <div class="metric-card d-flex align-items-center justify-content-between">
+            <div>
+                <div class="card-title">Average CTR</div>
+                <div class="card-value text-primary">{{ "{:.2f}".format(analytics.avg_ctr) }}%</div>
+                <small class="text-muted">Click-Through Rate</small>
+            </div>
+            <div class="metric-icon-box bg-primary-light">
+                <i class="fa-solid fa-percent"></i>
+            </div>
+        </div>
+    </div>
+    <!-- Card 2: Avg Conversion Rate -->
+    <div class="col-6 col-md-4 col-lg-3">
+        <div class="metric-card d-flex align-items-center justify-content-between">
+            <div>
+                <div class="card-title">Avg. Conversion Rate</div>
+                <div class="card-value text-info">{{ "{:.2f}".format(analytics.avg_conv_rate) }}%</div>
+                <small class="text-muted">Conversions / Clicks</small>
+            </div>
+            <div class="metric-icon-box bg-secondary-light">
+                <i class="fa-solid fa-chart-line"></i>
+            </div>
+        </div>
+    </div>
+    <!-- Card 3: Avg ROI -->
+    <div class="col-6 col-md-4 col-lg-3">
+        <div class="metric-card d-flex align-items-center justify-content-between">
+            <div>
+                <div class="card-title">Average ROI</div>
+                <div class="card-value {% if analytics.avg_roi >= 0 %}text-success{% else %}text-danger{% endif %}">
+                    {{ "{:+.1f}".format(analytics.avg_roi) }}%
+                </div>
+                <small class="text-muted">Return on Investment</small>
+            </div>
+            <div class="metric-icon-box bg-success-light">
+                <i class="fa-solid fa-arrow-up-right-dots"></i>
+            </div>
+        </div>
+    </div>
+    <!-- Card 4: Total Marketing Spend -->
+    <div class="col-6 col-md-4 col-lg-3">
+        <div class="metric-card d-flex align-items-center justify-content-between">
+            <div>
+                <div class="card-title">Total Spend</div>
+                <div class="card-value">${{ "{:,.2f}".format(analytics.total_budget) }}</div>
+                <small class="text-muted">Across all campaigns</small>
+            </div>
+            <div class="metric-icon-box bg-warning-light">
+                <i class="fa-solid fa-sack-dollar"></i>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Charts Grid -->
+<div class="row g-4 mb-4">
+    <!-- Chart 1: Campaign Clicks -->
+    <div class="col-12 col-md-6">
+        <div class="custom-table-card p-4">
+            <h5 class="fw-bold mb-3"><i class="fa-solid fa-pointer text-primary me-2"></i>Campaign-wise Clicks</h5>
+            <div style="position: relative; height: 260px; width: 100%;">
+                <canvas id="clicksChart"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <!-- Chart 2: Campaign Conversions -->
+    <div class="col-12 col-md-6">
+        <div class="custom-table-card p-4">
+            <h5 class="fw-bold mb-3"><i class="fa-solid fa-bullseye text-success me-2"></i>Campaign-wise Conversions</h5>
+            <div style="position: relative; height: 260px; width: 100%;">
+                <canvas id="conversionsChart"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <!-- Chart 3: Leads by Acquisition Source -->
+    <div class="col-12 col-md-6">
+        <div class="custom-table-card p-4">
+            <h5 class="fw-bold mb-3"><i class="fa-solid fa-filter text-warning me-2"></i>Leads by Marketing Source</h5>
+            <div style="position: relative; height: 260px; width: 100%;">
+                <canvas id="sourceChart"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <!-- Chart 4: Social Media Post Engagement -->
+    <div class="col-12 col-md-6">
+        <div class="custom-table-card p-4">
+            <h5 class="fw-bold mb-3"><i class="fa-solid fa-share-nodes text-secondary me-2"></i>Social Media Engagement (Likes vs Comments)</h5>
+            <div style="position: relative; height: 260px; width: 100%;">
+                <canvas id="engagementChart"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    // Campaign names shared across campaign charts
+    const campaignLabels = {{ data.campaign_names|tojson }};
+    const campaignClicksData = {{ data.campaign_clicks|tojson }};
+    const campaignConversionsData = {{ data.campaign_conversions|tojson }};
+
+    // 1. Campaign-wise Clicks Chart
+    new Chart(document.getElementById('clicksChart').getContext('2d'), {
+        type: 'bar',
+        data: {
+            labels: campaignLabels.length ? campaignLabels : ['No Campaign Data'],
+            datasets: [{
+                label: 'Clicks',
+                data: campaignClicksData.length ? campaignClicksData : [0],
+                backgroundColor: '#6366f1',
+                borderRadius: 6
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: { legend: { display: false } },
+            scales: {
+                y: { beginAtZero: true, grid: { color: '#f1f5f9' } },
+                x: { grid: { display: false } }
+            }
+        }
+    });
+
+    // 2. Campaign-wise Conversions Chart
+    new Chart(document.getElementById('conversionsChart').getContext('2d'), {
+        type: 'bar',
+        data: {
+            labels: campaignLabels.length ? campaignLabels : ['No Campaign Data'],
+            datasets: [{
+                label: 'Conversions',
+                data: campaignConversionsData.length ? campaignConversionsData : [0],
+                backgroundColor: '#14b8a6',
+                borderRadius: 6
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: { legend: { display: false } },
+            scales: {
+                y: { beginAtZero: true, grid: { color: '#f1f5f9' } },
+                x: { grid: { display: false } }
+            }
+        }
+    });
+
+    // 3. Leads by Source Chart (Doughnut)
+    const sourceLabels = {{ data.source_labels|tojson }};
+    const sourceCounts = {{ data.source_counts|tojson }};
+    
+    new Chart(document.getElementById('sourceChart').getContext('2d'), {
+        type: 'doughnut',
+        data: {
+            labels: sourceLabels.length ? sourceLabels : ['No Lead Data'],
+            datasets: [{
+                data: sourceCounts.length ? sourceCounts : [0],
+                backgroundColor: ['#6366f1', '#14b8a6', '#f59e0b', '#ef4444', '#a855f7'],
+                borderWidth: 2,
+                borderColor: '#ffffff'
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: { legend: { position: 'right' } }
+        }
+    });
+
+    // 4. Social Media Engagement Chart (Horizontal bar)
+    const postTitles = {{ data.post_titles|tojson }};
+    const postLikes = {{ data.post_likes|tojson }};
+    const postComments = {{ data.post_comments|tojson }};
+
+    new Chart(document.getElementById('engagementChart').getContext('2d'), {
+        type: 'bar',
+        data: {
+            labels: postTitles.length ? postTitles : ['No Post Data'],
+            datasets: [
+                {
+                    label: 'Likes',
+                    data: postLikes.length ? postLikes : [0],
+                    backgroundColor: 'rgba(99, 102, 241, 0.85)',
+                    borderRadius: 4
+                },
+                {
+                    label: 'Comments',
+                    data: postComments.length ? postComments : [0],
+                    backgroundColor: 'rgba(20, 184, 166, 0.85)',
+                    borderRadius: 4
+                }
+            ]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            indexAxis: 'y', // Makes the bar chart horizontal
+            plugins: { legend: { position: 'bottom' } },
+            scales: {
+                x: { beginAtZero: true, grid: { color: '#f1f5f9' } },
+                y: { grid: { display: false } }
+            }
+        }
+    });
+</script>
+{% endblock %}

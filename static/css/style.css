@@ -1,0 +1,362 @@
+/*
+ * MarketMate - Custom Digital Marketing Style
+ * Theme: Modern Indigo & Teal Professional Dashboard
+ */
+
+:root {
+    --primary: #6366f1;         /* Indigo */
+    --primary-hover: #4f46e5;
+    --secondary: #14b8a6;       /* Teal */
+    --secondary-hover: #0d9488;
+    --dark: #0f172a;            /* Slate 900 */
+    --dark-light: #1e293b;      /* Slate 800 */
+    --light: #f8fafc;           /* Slate 50 */
+    --white: #ffffff;
+    --text-muted: #64748b;      /* Slate 500 */
+    --text-dark: #1e293b;
+    --border-color: #e2e8f0;    /* Slate 200 */
+    --sidebar-width: 260px;
+    --sidebar-collapsed-width: 70px;
+}
+
+body {
+    font-family: 'Plus Jakarta Sans', 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    background-color: var(--light);
+    color: var(--text-dark);
+    min-height: 100vh;
+    overflow-x: hidden;
+}
+
+/* Sidebar Styling */
+.sidebar {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 100;
+    width: var(--sidebar-width);
+    background-color: var(--dark);
+    color: var(--white);
+    transition: all 0.3s ease;
+    box-shadow: 4px 0 10px rgba(0, 0, 0, 0.05);
+    display: flex;
+    flex-direction: column;
+}
+
+.sidebar .brand {
+    padding: 1.5rem;
+    font-size: 1.5rem;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+    background: linear-gradient(135deg, var(--primary), var(--secondary));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.sidebar-menu {
+    list-style: none;
+    padding: 1rem 0;
+    margin: 0;
+    flex-grow: 1;
+}
+
+.sidebar-item {
+    margin: 0.25rem 1rem;
+}
+
+.sidebar-link {
+    display: flex;
+    align-items: center;
+    padding: 0.75rem 1rem;
+    color: rgba(255, 255, 255, 0.7);
+    text-decoration: none;
+    border-radius: 8px;
+    transition: all 0.2s ease;
+    font-size: 0.95rem;
+}
+
+.sidebar-link i {
+    width: 24px;
+    font-size: 1.1rem;
+    margin-right: 0.75rem;
+    transition: transform 0.2s ease;
+}
+
+.sidebar-link:hover, .sidebar-item.active .sidebar-link {
+    background-color: rgba(255, 255, 255, 0.08);
+    color: var(--white);
+}
+
+.sidebar-item.active .sidebar-link {
+    background-color: var(--primary);
+    color: var(--white);
+}
+
+.sidebar-item.active .sidebar-link i {
+    color: var(--white);
+}
+
+.sidebar-footer {
+    padding: 1rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    font-size: 0.85rem;
+}
+
+/* Main Content Area */
+.main-content {
+    margin-left: var(--sidebar-width);
+    transition: all 0.3s ease;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.navbar-custom {
+    background-color: var(--white);
+    border-bottom: 1px solid var(--border-color);
+    padding: 1rem 2rem;
+}
+
+.content-wrapper {
+    padding: 2rem;
+    flex-grow: 1;
+}
+
+/* Dashboard Cards styling */
+.metric-card {
+    background: var(--white);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    padding: 1.5rem;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.02), 0 2px 4px -1px rgba(0, 0, 0, 0.01);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    height: 100%;
+}
+
+.metric-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05), 0 4px 6px -2px rgba(0, 0, 0, 0.03);
+}
+
+.metric-card .card-title {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 0.5rem;
+}
+
+.metric-card .card-value {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: var(--text-dark);
+}
+
+.metric-icon-box {
+    width: 48px;
+    height: 48px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.25rem;
+}
+
+.bg-primary-light {
+    background-color: rgba(99, 102, 241, 0.1);
+    color: var(--primary);
+}
+
+.bg-secondary-light {
+    background-color: rgba(20, 184, 166, 0.1);
+    color: var(--secondary);
+}
+
+.bg-warning-light {
+    background-color: rgba(245, 158, 11, 0.1);
+    color: #f59e0b;
+}
+
+.bg-danger-light {
+    background-color: rgba(239, 68, 68, 0.1);
+    color: #ef4444;
+}
+
+.bg-success-light {
+    background-color: rgba(34, 197, 94, 0.1);
+    color: #22c55e;
+}
+
+/* Custom Table Styles */
+.custom-table-card {
+    background: var(--white);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.02);
+}
+
+.table th {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--text-muted);
+    background-color: var(--light);
+    border-bottom-width: 1px;
+    padding: 1rem;
+}
+
+.table td {
+    padding: 1rem;
+    vertical-align: middle;
+    font-size: 0.9rem;
+    color: var(--text-dark);
+}
+
+/* Badge Styles */
+.badge-custom {
+    padding: 0.35em 0.65em;
+    font-size: 0.75rem;
+    font-weight: 600;
+    border-radius: 50rem;
+}
+
+.badge-planned { background-color: rgba(245, 158, 11, 0.1); color: #f59e0b; }
+.badge-active { background-color: rgba(99, 102, 241, 0.1); color: var(--primary); }
+.badge-completed { background-color: rgba(34, 197, 94, 0.1); color: #22c55e; }
+
+.badge-draft { background-color: rgba(100, 116, 139, 0.1); color: #64748b; }
+.badge-scheduled { background-color: rgba(245, 158, 11, 0.1); color: #f59e0b; }
+.badge-published { background-color: rgba(34, 197, 94, 0.1); color: #22c55e; }
+
+.badge-new { background-color: rgba(99, 102, 241, 0.1); color: var(--primary); }
+.badge-contacted { background-color: rgba(245, 158, 11, 0.1); color: #f59e0b; }
+.badge-converted { background-color: rgba(34, 197, 94, 0.1); color: #22c55e; }
+.badge-lost { background-color: rgba(239, 68, 68, 0.1); color: #ef4444; }
+
+/* Custom Forms */
+.form-card {
+    background-color: var(--white);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    padding: 2rem;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.02);
+}
+
+.form-label {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--text-dark);
+}
+
+.form-control, .form-select {
+    padding: 0.6rem 0.85rem;
+    font-size: 0.9rem;
+    border-color: var(--border-color);
+    border-radius: 8px;
+}
+
+.form-control:focus, .form-select:focus {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.15);
+}
+
+/* Landing Page Styles */
+.hero-section {
+    background: radial-gradient(circle at 10% 20%, rgba(99, 102, 241, 0.05) 0%, rgba(20, 184, 166, 0.05) 90%);
+    padding: 6rem 0;
+}
+
+.hero-title {
+    font-size: 3.5rem;
+    font-weight: 800;
+    line-height: 1.15;
+    margin-bottom: 1.5rem;
+}
+
+.hero-tagline {
+    font-size: 1.25rem;
+    color: var(--text-muted);
+    margin-bottom: 2rem;
+}
+
+.btn-gradient {
+    background: linear-gradient(135deg, var(--primary), var(--secondary));
+    color: var(--white);
+    border: none;
+    font-weight: 600;
+    padding: 0.75rem 1.5rem;
+    border-radius: 8px;
+    transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.btn-gradient:hover {
+    transform: translateY(-2px);
+    opacity: 0.95;
+    color: var(--white);
+}
+
+.feature-card {
+    background-color: var(--white);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    padding: 2rem;
+    transition: all 0.3s ease;
+}
+
+.feature-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.05);
+}
+
+/* Authentication Page */
+.auth-page {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: radial-gradient(circle at 50% 50%, var(--light) 0%, #e2e8f0 100%);
+}
+
+.auth-card {
+    width: 100%;
+    max-width: 420px;
+    background: var(--white);
+    border-radius: 16px;
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.08);
+    border: 1px solid rgba(255,255,255,0.7);
+    padding: 2.5rem 2rem;
+}
+
+/* Footer Section */
+footer {
+    background-color: var(--dark);
+    color: rgba(255, 255, 255, 0.6);
+    padding: 2rem 0;
+    font-size: 0.9rem;
+}
+
+/* Mobile Sidebar Toggle styling */
+.menu-toggle-btn {
+    display: none;
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    color: var(--text-dark);
+}
+
+@media (max-width: 991.98px) {
+    .sidebar {
+        left: -100%;
+    }
+    .sidebar.active {
+        left: 0;
+    }
+    .main-content {
+        margin-left: 0;
+    }
+    .menu-toggle-btn {
+        display: block;
+    }
+}

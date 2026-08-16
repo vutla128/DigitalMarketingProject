@@ -1,0 +1,69 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ 'Edit' if lead else 'Add' }} Lead - MarketMate{% endblock %}
+{% block page_header %}{{ 'Edit' if lead else 'Add New' }} Lead{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-lg-8">
+        <div class="form-card">
+            <h4 class="fw-bold mb-4 text-dark"><i class="fa-solid fa-user-tag text-warning me-2"></i>Lead Information</h4>
+            
+            <form action="{{ url_for('edit_lead', id=lead.id) if lead else url_for('add_lead') }}" method="POST">
+                <div class="row g-3">
+                    <!-- Lead Name -->
+                    <div class="col-md-6">
+                        <label for="name" class="form-label">Full Name *</label>
+                        <input type="text" class="form-control" id="name" name="name" value="{{ lead.name if lead else '' }}" placeholder="Sarah Connor" required>
+                    </div>
+
+                    <!-- Email Address -->
+                    <div class="col-md-6">
+                        <label for="email" class="form-label">Email Address *</label>
+                        <input type="email" class="form-control" id="email" name="email" value="{{ lead.email if lead else '' }}" placeholder="sarah@example.com" required>
+                    </div>
+
+                    <!-- Phone Number -->
+                    <div class="col-md-6">
+                        <label for="phone" class="form-label">Phone Number</label>
+                        <input type="tel" class="form-control" id="phone" name="phone" value="{{ lead.phone if lead else '' }}" placeholder="+1 (555) 123-4567">
+                    </div>
+
+                    <!-- Date Added -->
+                    <div class="col-md-6">
+                        <label for="date_added" class="form-label">Date Added</label>
+                        <input type="date" class="form-control" id="date_added" name="date_added" value="{{ lead.date_added if lead else today_date }}">
+                    </div>
+
+                    <!-- Lead Source -->
+                    <div class="col-md-6">
+                        <label for="source" class="form-label">Acquisition Source *</label>
+                        <select class="form-select" id="source" name="source" required>
+                            <option value="" disabled {{ 'selected' if not lead }}>Select source channel...</option>
+                            {% for src in ['Instagram', 'Facebook', 'Website', 'Google', 'Referral'] %}
+                                <option value="{{ src }}" {{ 'selected' if lead and lead.source == src }}>{{ src }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <!-- Lead Status -->
+                    <div class="col-md-6">
+                        <label for="status" class="form-label">Pipeline Status *</label>
+                        <select class="form-select" id="status" name="status" required>
+                            {% for stat in ['New', 'Contacted', 'Converted', 'Lost'] %}
+                                <option value="{{ stat }}" {{ 'selected' if lead and lead.status == stat or (not lead and stat == 'New') }}>{{ stat }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <!-- Form Controls -->
+                    <div class="col-12 mt-4 pt-2 border-top d-flex gap-3 justify-content-end">
+                        <a href="{{ url_for('leads') }}" class="btn btn-outline-secondary px-4">Cancel</a>
+                        <button type="submit" class="btn btn-warning text-dark fw-semibold px-4">{{ 'Update' if lead else 'Save' }} Lead</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

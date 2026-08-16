@@ -1,0 +1,84 @@
+{% extends 'base.html' %}
+
+{% block title %}Lead Pipeline - MarketMate{% endblock %}
+{% block page_header %}Leads Management{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <p class="text-muted m-0">Monitor customer acquisition sources, follow-up progress, and contact details.</p>
+    <a href="{{ url_for('add_lead') }}" class="btn btn-warning text-dark fw-semibold">
+        <i class="fa-solid fa-plus me-1"></i>Add Lead
+    </a>
+</div>
+
+<!-- Leads Table Card -->
+<div class="custom-table-card">
+    <div class="table-responsive">
+        <table class="table table-hover align-middle mb-0">
+            <thead>
+                <tr>
+                    <th>Lead Name</th>
+                    <th>Email Address</th>
+                    <th>Phone Number</th>
+                    <th>Source</th>
+                    <th>Date Added</th>
+                    <th>Status</th>
+                    <th class="text-end">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% if leads %}
+                    {% for l in leads %}
+                    <tr>
+                        <td>
+                            <strong class="text-dark">{{ l.name }}</strong>
+                        </td>
+                        <td>
+                            <a href="mailto:{{ l.email }}" class="text-decoration-none">{{ l.email }}</a>
+                        </td>
+                        <td>
+                            <span class="text-muted">{{ l.phone if l.phone else 'N/A' }}</span>
+                        </td>
+                        <td>
+                            <span class="badge bg-light text-dark py-2 px-3 border">
+                                {% if l.source == 'Instagram' %}<i class="fa-brands fa-instagram text-danger me-1"></i>{% endif %}
+                                {% if l.source == 'Facebook' %}<i class="fa-brands fa-facebook text-primary me-1"></i>{% endif %}
+                                {% if l.source == 'Website' %}<i class="fa-solid fa-globe text-success me-1"></i>{% endif %}
+                                {% if l.source == 'Google' %}<i class="fa-brands fa-google text-warning me-1"></i>{% endif %}
+                                {% if l.source == 'Referral' %}<i class="fa-solid fa-user-plus text-info me-1"></i>{% endif %}
+                                {{ l.source }}
+                            </span>
+                        </td>
+                        <td>
+                            <span class="small text-muted">{{ l.date_added }}</span>
+                        </td>
+                        <td>
+                            <span class="badge-custom badge-{{ l.status|lower }}">{{ l.status }}</span>
+                        </td>
+                        <td class="text-end">
+                            <div class="btn-group">
+                                <a href="{{ url_for('edit_lead', id=l.id) }}" class="btn btn-outline-secondary btn-sm" title="Edit Lead">
+                                    <i class="fa-solid fa-pen"></i>
+                                </a>
+                                <form action="{{ url_for('delete_lead', id=l.id) }}" method="POST" class="d-inline" onsubmit="return confirm('Are you sure you want to delete this lead?');">
+                                    <button type="submit" class="btn btn-outline-danger btn-sm" title="Delete Lead">
+                                        <i class="fa-solid fa-trash"></i>
+                                    </button>
+                                </form>
+                            </div>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                {% else %}
+                    <tr>
+                        <td colspan="7" class="text-center py-5 text-muted">
+                            <i class="fa-solid fa-users fa-3x mb-3 text-light"></i>
+                            <p class="mb-0">No leads captured. Create a lead manually or let organic campaigns drive traffic!</p>
+                        </td>
+                    </tr>
+                {% endif %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

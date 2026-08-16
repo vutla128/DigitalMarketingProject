@@ -1,0 +1,90 @@
+{% extends 'base.html' %}
+
+{% block title %}Social Media Planner - MarketMate{% endblock %}
+{% block page_header %}Social Media Posts{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <p class="text-muted m-0">Organize and log organic social media content activities across channels.</p>
+    <a href="{{ url_for('add_social_post') }}" class="btn btn-secondary text-white">
+        <i class="fa-solid fa-plus me-1"></i>Add Social Post
+    </a>
+</div>
+
+<!-- Social Posts Table Card -->
+<div class="custom-table-card">
+    <div class="table-responsive">
+        <table class="table table-hover align-middle mb-0">
+            <thead>
+                <tr>
+                    <th>Post Title</th>
+                    <th>Platform</th>
+                    <th>Post Date</th>
+                    <th>Content Snippet</th>
+                    <th>Engagement (Likes/Comm/Shares)</th>
+                    <th>Status</th>
+                    <th class="text-end">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% if posts %}
+                    {% for p in posts %}
+                    <tr>
+                        <td>
+                            <strong class="text-dark">{{ p.title }}</strong>
+                        </td>
+                        <td>
+                            <span class="badge bg-light text-dark py-2 px-3 border">
+                                {% if p.platform == 'Instagram' %}<i class="fa-brands fa-instagram text-danger me-1"></i>{% endif %}
+                                {% if p.platform == 'Facebook' %}<i class="fa-brands fa-facebook text-primary me-1"></i>{% endif %}
+                                {% if p.platform == 'Twitter' or p.platform == 'X' %}<i class="fa-brands fa-x-twitter text-dark me-1"></i>{% endif %}
+                                {% if p.platform == 'LinkedIn' %}<i class="fa-brands fa-linkedin text-primary me-1"></i>{% endif %}
+                                {% if p.platform == 'YouTube' %}<i class="fa-brands fa-youtube text-danger me-1"></i>{% endif %}
+                                {{ p.platform }}
+                            </span>
+                        </td>
+                        <td>
+                            <span>{{ p.post_date if p.post_date else 'Not scheduled' }}</span>
+                        </td>
+                        <td>
+                            <span class="text-muted text-truncate d-inline-block" style="max-width: 250px;" title="{{ p.content }}">
+                                {{ p.content }}
+                            </span>
+                        </td>
+                        <td>
+                            <div class="d-flex gap-3 small">
+                                <span><i class="fa-regular fa-thumbs-up text-primary me-1"></i>{{ p.likes }}</span>
+                                <span><i class="fa-regular fa-comment text-secondary me-1"></i>{{ p.comments }}</span>
+                                <span><i class="fa-solid fa-share text-success me-1"></i>{{ p.shares }}</span>
+                            </div>
+                        </td>
+                        <td>
+                            <span class="badge-custom badge-{{ p.status|lower }}">{{ p.status }}</span>
+                        </td>
+                        <td class="text-end">
+                            <div class="btn-group">
+                                <a href="{{ url_for('edit_social_post', id=p.id) }}" class="btn btn-outline-secondary btn-sm" title="Edit Post">
+                                    <i class="fa-solid fa-pen"></i>
+                                </a>
+                                <form action="{{ url_for('delete_social_post', id=p.id) }}" method="POST" class="d-inline" onsubmit="return confirm('Are you sure you want to delete this social post?');">
+                                    <button type="submit" class="btn btn-outline-danger btn-sm" title="Delete Post">
+                                        <i class="fa-solid fa-trash"></i>
+                                    </button>
+                                </form>
+                            </div>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                {% else %}
+                    <tr>
+                        <td colspan="7" class="text-center py-5 text-muted">
+                            <i class="fa-solid fa-share-nodes fa-3x mb-3 text-light"></i>
+                            <p class="mb-0">No social posts registered. Start scheduling your organic content!</p>
+                        </td>
+                    </tr>
+                {% endif %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

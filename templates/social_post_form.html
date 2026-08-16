@@ -1,0 +1,86 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ 'Edit' if post else 'Create' }} Social Post - MarketMate{% endblock %}
+{% block page_header %}{{ 'Edit' if post else 'Create New' }} Social Post{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-lg-8">
+        <div class="form-card">
+            <h4 class="fw-bold mb-4 text-dark"><i class="fa-solid fa-share-nodes text-secondary me-2"></i>Post Details</h4>
+            
+            <form action="{{ url_for('edit_social_post', id=post.id) if post else url_for('add_social_post') }}" method="POST">
+                <div class="row g-3">
+                    <!-- Post Title -->
+                    <div class="col-md-8">
+                        <label for="title" class="form-label">Post Title *</label>
+                        <input type="text" class="form-control" id="title" name="title" value="{{ post.title if post else '' }}" placeholder="Product Launch Announcement" required>
+                    </div>
+
+                    <!-- Platform Selection -->
+                    <div class="col-md-4">
+                        <label for="platform" class="form-label">Platform *</label>
+                        <select class="form-select" id="platform" name="platform" required>
+                            <option value="" disabled {{ 'selected' if not post }}>Choose platform...</option>
+                            {% for plat in ['Instagram', 'Facebook', 'Twitter', 'LinkedIn', 'YouTube'] %}
+                                <option value="{{ plat }}" {{ 'selected' if post and post.platform == plat }}>{{ plat }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <!-- Post Date -->
+                    <div class="col-md-6">
+                        <label for="post_date" class="form-label">Publish / Schedule Date</label>
+                        <input type="date" class="form-control" id="post_date" name="post_date" value="{{ post.post_date if post else '' }}">
+                    </div>
+
+                    <!-- Status -->
+                    <div class="col-md-6">
+                        <label for="status" class="form-label">Status *</label>
+                        <select class="form-select" id="status" name="status" required>
+                            {% for stat in ['Draft', 'Scheduled', 'Published'] %}
+                                <option value="{{ stat }}" {{ 'selected' if post and post.status == stat or (not post and stat == 'Draft') }}>{{ stat }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <!-- Post Content -->
+                    <div class="col-12">
+                        <label for="content" class="form-label">Post Content *</label>
+                        <textarea class="form-control" id="content" name="content" rows="5" placeholder="Write your post caption or content here... Include hashtags if necessary!" required>{{ post.content if post else '' }}</textarea>
+                    </div>
+
+                    <!-- Engagement Section (Optional / Mock metrics) -->
+                    <div class="border-top my-4 pt-3 w-100">
+                        <h5 class="fw-semibold text-muted mb-3">Engagement Statistics (Optional)</h5>
+                    </div>
+
+                    <!-- Likes -->
+                    <div class="col-md-4">
+                        <label for="likes" class="form-label">Likes</label>
+                        <input type="number" min="0" class="form-control" id="likes" name="likes" value="{{ post.likes if post else '0' }}">
+                    </div>
+
+                    <!-- Comments -->
+                    <div class="col-md-4">
+                        <label for="comments" class="form-label">Comments</label>
+                        <input type="number" min="0" class="form-control" id="comments" name="comments" value="{{ post.comments if post else '0' }}">
+                    </div>
+
+                    <!-- Shares -->
+                    <div class="col-md-4">
+                        <label for="shares" class="form-label">Shares</label>
+                        <input type="number" min="0" class="form-control" id="shares" name="shares" value="{{ post.shares if post else '0' }}">
+                    </div>
+
+                    <!-- Form Controls -->
+                    <div class="col-12 mt-4 pt-2 border-top d-flex gap-3 justify-content-end">
+                        <a href="{{ url_for('social_posts') }}" class="btn btn-outline-secondary px-4">Cancel</a>
+                        <button type="submit" class="btn btn-secondary text-white px-4">{{ 'Update' if post else 'Save' }} Post</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

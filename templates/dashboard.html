@@ -1,0 +1,294 @@
+{% extends 'base.html' %}
+
+{% block title %}Dashboard - MarketMate{% endblock %}
+{% block page_header %}Dashboard Overview{% endblock %}
+
+{% block content %}
+<!-- Metric Cards Grid -->
+<div class="row g-4 mb-4">
+    <!-- Card 1: Total Campaigns -->
+    <div class="col-6 col-md-4 col-lg-3">
+        <div class="metric-card d-flex align-items-center justify-content-between">
+            <div>
+                <div class="card-title">Total Campaigns</div>
+                <div class="card-value">{{ stats.total_campaigns }}</div>
+            </div>
+            <div class="metric-icon-box bg-primary-light">
+                <i class="fa-solid fa-bullhorn"></i>
+            </div>
+        </div>
+    </div>
+    <!-- Card 2: Active Campaigns -->
+    <div class="col-6 col-md-4 col-lg-3">
+        <div class="metric-card d-flex align-items-center justify-content-between">
+            <div>
+                <div class="card-title">Active Campaigns</div>
+                <div class="card-value">{{ stats.active_campaigns }}</div>
+            </div>
+            <div class="metric-icon-box bg-success-light">
+                <i class="fa-solid fa-circle-play"></i>
+            </div>
+        </div>
+    </div>
+    <!-- Card 3: Total Leads -->
+    <div class="col-6 col-md-4 col-lg-3">
+        <div class="metric-card d-flex align-items-center justify-content-between">
+            <div>
+                <div class="card-title">Total Leads</div>
+                <div class="card-value">{{ stats.total_leads }}</div>
+            </div>
+            <div class="metric-icon-box bg-warning-light">
+                <i class="fa-solid fa-users"></i>
+            </div>
+        </div>
+    </div>
+    <!-- Card 4: Social Posts -->
+    <div class="col-6 col-md-4 col-lg-3">
+        <div class="metric-card d-flex align-items-center justify-content-between">
+            <div>
+                <div class="card-title">Social Posts</div>
+                <div class="card-value">{{ stats.total_posts }}</div>
+            </div>
+            <div class="metric-icon-box bg-secondary-light">
+                <i class="fa-solid fa-share-nodes"></i>
+            </div>
+        </div>
+    </div>
+    <!-- Card 5: Total Budget -->
+    <div class="col-6 col-md-4 col-lg-4">
+        <div class="metric-card d-flex align-items-center justify-content-between">
+            <div>
+                <div class="card-title">Total Spend / Budget</div>
+                <div class="card-value">${{ "{:,.2f}".format(stats.total_budget) }}</div>
+            </div>
+            <div class="metric-icon-box bg-primary-light">
+                <i class="fa-solid fa-wallet"></i>
+            </div>
+        </div>
+    </div>
+    <!-- Card 6: Total Clicks -->
+    <div class="col-6 col-md-4 col-lg-4">
+        <div class="metric-card d-flex align-items-center justify-content-between">
+            <div>
+                <div class="card-title">Total Clicks</div>
+                <div class="card-value">{{ stats.total_clicks }}</div>
+            </div>
+            <div class="metric-icon-box bg-warning-light">
+                <i class="fa-solid fa-arrow-pointer"></i>
+            </div>
+        </div>
+    </div>
+    <!-- Card 7: Total Conversions -->
+    <div class="col-6 col-md-4 col-lg-4">
+        <div class="metric-card d-flex align-items-center justify-content-between">
+            <div>
+                <div class="card-title">Total Conversions</div>
+                <div class="card-value">{{ stats.total_conversions }}</div>
+            </div>
+            <div class="metric-icon-box bg-success-light">
+                <i class="fa-solid fa-award"></i>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Charts Row -->
+<div class="row g-4 mb-4">
+    <!-- Chart 1: Campaigns Clicks vs Conversions -->
+    <div class="col-12 col-lg-8">
+        <div class="custom-table-card p-4 h-100">
+            <h5 class="fw-bold mb-3"><i class="fa-solid fa-chart-line text-primary me-2"></i>Campaign performance (Clicks & Conversions)</h5>
+            <div style="position: relative; height: 300px; width: 100%;">
+                <canvas id="campaignChart"></canvas>
+            </div>
+        </div>
+    </div>
+    <!-- Chart 2: Leads by Status -->
+    <div class="col-12 col-lg-4">
+        <div class="custom-table-card p-4 h-100">
+            <h5 class="fw-bold mb-3"><i class="fa-solid fa-pie-chart text-secondary me-2"></i>Leads Status</h5>
+            <div style="position: relative; height: 300px; width: 100%;">
+                <canvas id="leadsChart"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Recent Submissions Row -->
+<div class="row g-4">
+    <!-- Recent Campaigns Table -->
+    <div class="col-12 col-xl-7">
+        <div class="custom-table-card p-4">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <h5 class="fw-bold m-0"><i class="fa-solid fa-bullhorn text-primary me-2"></i>Recent Campaigns</h5>
+                <a href="{{ url_for('campaigns') }}" class="btn btn-primary-light btn-sm text-primary">View All</a>
+            </div>
+            <div class="table-responsive">
+                <table class="table table-hover align-middle">
+                    <thead>
+                        <tr>
+                            <th>Campaign</th>
+                            <th>Platform</th>
+                            <th>Budget</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% if recent_campaigns %}
+                            {% for c in recent_campaigns %}
+                            <tr>
+                                <td><strong>{{ c.name }}</strong></td>
+                                <td>
+                                    <span class="badge bg-light text-dark">
+                                        {% if c.platform == 'Instagram' %}<i class="fa-brands fa-instagram text-danger me-1"></i>{% endif %}
+                                        {% if c.platform == 'Facebook' %}<i class="fa-brands fa-facebook text-primary me-1"></i>{% endif %}
+                                        {% if c.platform == 'Google Ads' %}<i class="fa-brands fa-google text-success me-1"></i>{% endif %}
+                                        {% if c.platform == 'YouTube' %}<i class="fa-brands fa-youtube text-danger me-1"></i>{% endif %}
+                                        {% if c.platform == 'LinkedIn' %}<i class="fa-brands fa-linkedin text-primary me-1"></i>{% endif %}
+                                        {{ c.platform }}
+                                    </span>
+                                </td>
+                                <td>${{ "{:,.2f}".format(c.budget) }}</td>
+                                <td>
+                                    <span class="badge-custom badge-{{ c.status|lower }}">{{ c.status }}</span>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        {% else %}
+                            <tr>
+                                <td colspan="4" class="text-center py-4 text-muted">No campaigns created yet. Click 'Campaigns' to add one.</td>
+                            </tr>
+                        {% endif %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Recent Social Posts Table -->
+    <div class="col-12 col-xl-5">
+        <div class="custom-table-card p-4">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <h5 class="fw-bold m-0"><i class="fa-solid fa-share-nodes text-secondary me-2"></i>Recent Posts</h5>
+                <a href="{{ url_for('social_posts') }}" class="btn btn-secondary-light btn-sm text-secondary">View All</a>
+            </div>
+            <div class="table-responsive">
+                <table class="table table-hover align-middle">
+                    <thead>
+                        <tr>
+                            <th>Post Title</th>
+                            <th>Platform</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% if recent_posts %}
+                            {% for p in recent_posts %}
+                            <tr>
+                                <td><span class="text-truncate d-inline-block" style="max-width: 150px;"><strong>{{ p.title }}</strong></span></td>
+                                <td>
+                                    <span class="badge bg-light text-dark">
+                                        {% if p.platform == 'Instagram' %}<i class="fa-brands fa-instagram text-danger me-1"></i>{% endif %}
+                                        {% if p.platform == 'Facebook' %}<i class="fa-brands fa-facebook text-primary me-1"></i>{% endif %}
+                                        {% if p.platform == 'Twitter' or p.platform == 'X' %}<i class="fa-brands fa-x-twitter text-dark me-1"></i>{% endif %}
+                                        {% if p.platform == 'LinkedIn' %}<i class="fa-brands fa-linkedin text-primary me-1"></i>{% endif %}
+                                        {{ p.platform }}
+                                    </span>
+                                </td>
+                                <td>
+                                    <span class="badge-custom badge-{{ p.status|lower }}">{{ p.status }}</span>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        {% else %}
+                            <tr>
+                                <td colspan="3" class="text-center py-4 text-muted">No posts created yet. Click 'Social Posts' to add one.</td>
+                            </tr>
+                        {% endif %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    // Campaign Chart Configuration (Bar chart clicks/conversions)
+    const campaignCtx = document.getElementById('campaignChart').getContext('2d');
+    
+    // Python outputs lists using JSON serialization inside safe template filter
+    const campaignNames = {{ chart_data.campaign_names|tojson }};
+    const campaignClicks = {{ chart_data.campaign_clicks|tojson }};
+    const campaignConversions = {{ chart_data.campaign_conversions|tojson }};
+    
+    new Chart(campaignCtx, {
+        type: 'bar',
+        data: {
+            labels: campaignNames.length ? campaignNames : ['No Data'],
+            datasets: [
+                {
+                    label: 'Clicks',
+                    data: campaignClicks.length ? campaignClicks : [0],
+                    backgroundColor: '#6366f1',
+                    borderRadius: 6
+                },
+                {
+                    label: 'Conversions',
+                    data: campaignConversions.length ? campaignConversions : [0],
+                    backgroundColor: '#14b8a6',
+                    borderRadius: 6
+                }
+            ]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: { position: 'top' }
+            },
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    grid: { color: '#f1f5f9' }
+                },
+                x: {
+                    grid: { display: false }
+                }
+            }
+        }
+    });
+
+    // Leads Chart Configuration (Doughnut chart by status)
+    const leadsCtx = document.getElementById('leadsChart').getContext('2d');
+    const leadsLabels = {{ chart_data.leads_labels|tojson }};
+    const leadsCounts = {{ chart_data.leads_counts|tojson }};
+
+    new Chart(leadsCtx, {
+        type: 'doughnut',
+        data: {
+            labels: leadsLabels.length ? leadsLabels : ['No Leads'],
+            datasets: [{
+                data: leadsCounts.length ? leadsCounts : [0],
+                backgroundColor: [
+                    '#6366f1', // New
+                    '#f59e0b', // Contacted
+                    '#22c55e', // Converted
+                    '#ef4444'  // Lost
+                ],
+                borderWidth: 2,
+                borderColor: '#ffffff'
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: { position: 'bottom' }
+            },
+            cutout: '65%'
+        }
+    });
+</script>
+{% endblock %}

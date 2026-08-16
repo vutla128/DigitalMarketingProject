@@ -1,0 +1,108 @@
+{% extends 'base.html' %}
+
+{% block title %}MarketMate - Simple Digital Marketing Management{% endblock %}
+
+{% block public_content %}
+<!-- Hero Section -->
+<section class="hero-section text-center text-lg-start">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-6 mb-5 mb-lg-0">
+                <span class="badge bg-primary-light text-primary px-3 py-2 rounded-pill fw-bold mb-3">All-in-One Dashboard</span>
+                <h1 class="hero-title text-dark">Supercharge Your Digital Marketing</h1>
+                <p class="hero-tagline">
+                    MarketMate helps small businesses and digital marketers manage campaigns, track leads, organize social posts, and visualize performance analytics—all in one simple, beautiful dashboard.
+                </p>
+                <div class="d-flex flex-column flex-sm-row gap-3 justify-content-center justify-content-lg-start">
+                    <a href="{{ url_for('login') }}" class="btn btn-gradient btn-lg px-4 py-3">Get Started Now</a>
+                    <a href="#features" class="btn btn-outline-secondary btn-lg px-4 py-3">Learn More</a>
+                </div>
+            </div>
+            <div class="col-lg-6 text-center">
+                <div class="p-4 bg-white rounded-4 shadow-lg border border-light">
+                    <!-- Clean Mock Dashboard Element -->
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+                        <span class="fw-bold"><i class="fa-solid fa-chart-bar text-primary me-2"></i>Marketing Performance Overview</span>
+                        <span class="badge bg-success text-success-light px-2 py-1">+14.2% MoM</span>
+                    </div>
+                    <div class="row g-3 mb-4">
+                        <div class="col-6">
+                            <div class="p-3 bg-light rounded-3 text-start">
+                                <small class="text-muted d-block">Total Campaigns</small>
+                                <span class="fs-4 fw-bold">12</span>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="p-3 bg-light rounded-3 text-start">
+                                <small class="text-muted d-block">Conversions</small>
+                                <span class="fs-4 fw-bold">1,842</span>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Mock chart representation -->
+                    <div class="w-100 bg-light rounded-3 p-3 text-center" style="height: 150px; display: flex; align-items: flex-end; justify-content: space-around;">
+                        <div class="bg-primary rounded-top" style="width: 15%; height: 35%;"></div>
+                        <div class="bg-secondary rounded-top" style="width: 15%; height: 60%;"></div>
+                        <div class="bg-primary rounded-top" style="width: 15%; height: 45%;"></div>
+                        <div class="bg-secondary rounded-top" style="width: 15%; height: 85%;"></div>
+                        <div class="bg-primary rounded-top" style="width: 15%; height: 70%;"></div>
+                        <div class="bg-secondary rounded-top" style="width: 15%; height: 95%;"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Features Section -->
+<section id="features" class="py-5 bg-white border-top border-bottom">
+    <div class="container py-4">
+        <div class="text-center mb-5">
+            <h2 class="fw-bold">Everything You Need To Grow</h2>
+            <p class="text-muted col-md-6 mx-auto">No complicated systems, no expensive platforms. Just the essential tools to manage your digital marketing campaigns and analyze outcomes.</p>
+        </div>
+        <div class="row g-4">
+            <!-- Feature 1: Campaigns -->
+            <div class="col-md-6 col-lg-3">
+                <div class="feature-card text-center h-100">
+                    <div class="metric-icon-box bg-primary-light mx-auto mb-3">
+                        <i class="fa-solid fa-bullhorn text-primary"></i>
+                    </div>
+                    <h5 class="fw-bold mb-2">Campaign Tracking</h5>
+                    <p class="text-muted small m-0">Monitor marketing spend, platform details, click metrics, conversions, and status for Instagram, Facebook, Google Ads and more.</p>
+                </div>
+            </div>
+            <!-- Feature 2: Social Media -->
+            <div class="col-md-6 col-lg-3">
+                <div class="feature-card text-center h-100">
+                    <div class="metric-icon-box bg-secondary-light mx-auto mb-3">
+                        <i class="fa-solid fa-share-nodes text-secondary"></i>
+                    </div>
+                    <h5 class="fw-bold mb-2">Social Posts Planner</h5>
+                    <p class="text-muted small m-0">Plan, track, and manage your scheduled posts. Save post titles, dates, platforms, content, and record engagement counts.</p>
+                </div>
+            </div>
+            <!-- Feature 3: Lead Management -->
+            <div class="col-md-6 col-lg-3">
+                <div class="feature-card text-center h-100">
+                    <div class="metric-icon-box bg-warning-light mx-auto mb-3">
+                        <i class="fa-solid fa-users text-warning"></i>
+                    </div>
+                    <h5 class="fw-bold mb-2">Lead Pipeline</h5>
+                    <p class="text-muted small m-0">Capture new contacts, group them by acquisition source (Facebook, Web form, referrals), and trace lead follow-up status.</p>
+                </div>
+            </div>
+            <!-- Feature 4: Analytics -->
+            <div class="col-md-6 col-lg-3">
+                <div class="feature-card text-center h-100">
+                    <div class="metric-icon-box bg-success-light mx-auto mb-3">
+                        <i class="fa-solid fa-chart-simple text-success"></i>
+                    </div>
+                    <h5 class="fw-bold mb-2">Simple Visuals</h5>
+                    <p class="text-muted small m-0">Get answers quickly with automated calculations of Click-Through Rate (CTR), Conversion Rates, ROI, and clean Chart.js plots.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
