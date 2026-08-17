@@ -97,7 +97,8 @@
     <!-- Chart 1: Campaigns Clicks vs Conversions -->
     <div class="col-12 col-lg-8">
         <div class="custom-table-card p-4 h-100">
-            <h5 class="fw-bold mb-3"><i class="fa-solid fa-chart-line text-primary me-2"></i>Campaign performance (Clicks & Conversions)</h5>
+            <h5 class="fw-bold mb-3"><i class="fa-solid fa-chart-line text-primary me-2"></i>Campaign performance
+                (Clicks & Conversions)</h5>
             <div style="position: relative; height: 300px; width: 100%;">
                 <canvas id="campaignChart"></canvas>
             </div>
@@ -135,29 +136,35 @@
                     </thead>
                     <tbody>
                         {% if recent_campaigns %}
-                            {% for c in recent_campaigns %}
-                            <tr>
-                                <td><strong>{{ c.name }}</strong></td>
-                                <td>
-                                    <span class="badge bg-light text-dark">
-                                        {% if c.platform == 'Instagram' %}<i class="fa-brands fa-instagram text-danger me-1"></i>{% endif %}
-                                        {% if c.platform == 'Facebook' %}<i class="fa-brands fa-facebook text-primary me-1"></i>{% endif %}
-                                        {% if c.platform == 'Google Ads' %}<i class="fa-brands fa-google text-success me-1"></i>{% endif %}
-                                        {% if c.platform == 'YouTube' %}<i class="fa-brands fa-youtube text-danger me-1"></i>{% endif %}
-                                        {% if c.platform == 'LinkedIn' %}<i class="fa-brands fa-linkedin text-primary me-1"></i>{% endif %}
-                                        {{ c.platform }}
-                                    </span>
-                                </td>
-                                <td>${{ "{:,.2f}".format(c.budget) }}</td>
-                                <td>
-                                    <span class="badge-custom badge-{{ c.status|lower }}">{{ c.status }}</span>
-                                </td>
-                            </tr>
-                            {% endfor %}
+                        {% for c in recent_campaigns %}
+                        <tr>
+                            <td><strong>{{ c.name }}</strong></td>
+                            <td>
+                                <span class="badge bg-light text-dark">
+                                    {% if c.platform == 'Instagram' %}<i
+                                        class="fa-brands fa-instagram text-danger me-1"></i>{% endif %}
+                                    {% if c.platform == 'Facebook' %}<i
+                                        class="fa-brands fa-facebook text-primary me-1"></i>{% endif %}
+                                    {% if c.platform == 'Google Ads' %}<i
+                                        class="fa-brands fa-google text-success me-1"></i>{% endif %}
+                                    {% if c.platform == 'YouTube' %}<i
+                                        class="fa-brands fa-youtube text-danger me-1"></i>{% endif %}
+                                    {% if c.platform == 'LinkedIn' %}<i
+                                        class="fa-brands fa-linkedin text-primary me-1"></i>{% endif %}
+                                    {{ c.platform }}
+                                </span>
+                            </td>
+                            <td>${{ "{:,.2f}".format(c.budget) }}</td>
+                            <td>
+                                <span class="badge-custom badge-{{ c.status|lower }}">{{ c.status }}</span>
+                            </td>
+                        </tr>
+                        {% endfor %}
                         {% else %}
-                            <tr>
-                                <td colspan="4" class="text-center py-4 text-muted">No campaigns created yet. Click 'Campaigns' to add one.</td>
-                            </tr>
+                        <tr>
+                            <td colspan="4" class="text-center py-4 text-muted">No campaigns created yet. Click
+                                'Campaigns' to add one.</td>
+                        </tr>
                         {% endif %}
                     </tbody>
                 </table>
@@ -170,7 +177,8 @@
         <div class="custom-table-card p-4">
             <div class="d-flex justify-content-between align-items-center mb-3">
                 <h5 class="fw-bold m-0"><i class="fa-solid fa-share-nodes text-secondary me-2"></i>Recent Posts</h5>
-                <a href="{{ url_for('social_posts') }}" class="btn btn-secondary-light btn-sm text-secondary">View All</a>
+                <a href="{{ url_for('social_posts') }}" class="btn btn-secondary-light btn-sm text-secondary">View
+                    All</a>
             </div>
             <div class="table-responsive">
                 <table class="table table-hover align-middle">
@@ -183,27 +191,33 @@
                     </thead>
                     <tbody>
                         {% if recent_posts %}
-                            {% for p in recent_posts %}
-                            <tr>
-                                <td><span class="text-truncate d-inline-block" style="max-width: 150px;"><strong>{{ p.title }}</strong></span></td>
-                                <td>
-                                    <span class="badge bg-light text-dark">
-                                        {% if p.platform == 'Instagram' %}<i class="fa-brands fa-instagram text-danger me-1"></i>{% endif %}
-                                        {% if p.platform == 'Facebook' %}<i class="fa-brands fa-facebook text-primary me-1"></i>{% endif %}
-                                        {% if p.platform == 'Twitter' or p.platform == 'X' %}<i class="fa-brands fa-x-twitter text-dark me-1"></i>{% endif %}
-                                        {% if p.platform == 'LinkedIn' %}<i class="fa-brands fa-linkedin text-primary me-1"></i>{% endif %}
-                                        {{ p.platform }}
-                                    </span>
-                                </td>
-                                <td>
-                                    <span class="badge-custom badge-{{ p.status|lower }}">{{ p.status }}</span>
-                                </td>
-                            </tr>
-                            {% endfor %}
+                        {% for p in recent_posts %}
+                        <tr>
+                            <td><span class="text-truncate d-inline-block" style="max-width: 150px;"><strong>{{ p.title
+                                        }}</strong></span></td>
+                            <td>
+                                <span class="badge bg-light text-dark">
+                                    {% if p.platform == 'Instagram' %}<i
+                                        class="fa-brands fa-instagram text-danger me-1"></i>{% endif %}
+                                    {% if p.platform == 'Facebook' %}<i
+                                        class="fa-brands fa-facebook text-primary me-1"></i>{% endif %}
+                                    {% if p.platform == 'Twitter' or p.platform == 'X' %}<i
+                                        class="fa-brands fa-x-twitter text-dark me-1"></i>{% endif %}
+                                    {% if p.platform == 'LinkedIn' %}<i
+                                        class="fa-brands fa-linkedin text-primary me-1"></i>{% endif %}
+                                    {{ p.platform }}
+                                </span>
+                            </td>
+                            <td>
+                                <span class="badge-custom badge-{{ p.status|lower }}">{{ p.status }}</span>
+                            </td>
+                        </tr>
+                        {% endfor %}
                         {% else %}
-                            <tr>
-                                <td colspan="3" class="text-center py-4 text-muted">No posts created yet. Click 'Social Posts' to add one.</td>
-                            </tr>
+                        <tr>
+                            <td colspan="3" class="text-center py-4 text-muted">No posts created yet. Click 'Social
+                                Posts' to add one.</td>
+                        </tr>
                         {% endif %}
                     </tbody>
                 </table>
@@ -217,12 +231,12 @@
 <script>
     // Campaign Chart Configuration (Bar chart clicks/conversions)
     const campaignCtx = document.getElementById('campaignChart').getContext('2d');
-    
+
     // Python outputs lists using JSON serialization inside safe template filter
-    const campaignNames = {{ chart_data.campaign_names|tojson }};
-    const campaignClicks = {{ chart_data.campaign_clicks|tojson }};
-    const campaignConversions = {{ chart_data.campaign_conversions|tojson }};
-    
+    const campaignNames = {{ chart_data.campaign_names| tojson }};
+    const campaignClicks = {{ chart_data.campaign_clicks| tojson }};
+    const campaignConversions = {{ chart_data.campaign_conversions| tojson }};
+
     new Chart(campaignCtx, {
         type: 'bar',
         data: {
@@ -262,8 +276,8 @@
 
     // Leads Chart Configuration (Doughnut chart by status)
     const leadsCtx = document.getElementById('leadsChart').getContext('2d');
-    const leadsLabels = {{ chart_data.leads_labels|tojson }};
-    const leadsCounts = {{ chart_data.leads_counts|tojson }};
+    const leadsLabels = {{ chart_data.leads_labels| tojson }};
+    const leadsCounts = {{ chart_data.leads_counts| tojson }};
 
     new Chart(leadsCtx, {
         type: 'doughnut',
